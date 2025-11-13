@@ -11,11 +11,11 @@ export const PRICING_CONFIG = {
   waitPerMin: 0.5,
   stopCharge: 10,
   commissionRate: 0.15,
-  traffic: { Low: 0.9, Medium: 1.0, High: 1.2 },
+  traffic: { Low: 1.0, Medium: 1.15, High: 1.25 },
   vehicle: {
-    "3 Wheeler - 500kg": 0.9,
-    "Intra - 1 Ton": 1.0,
-    "Bolero Pickup - 2 Ton": 1.15,
+    "3 Wheeler - 500kg": 1.0,
+    "Intra - 1 Ton": 1.15,
+    "Bolero Pickup - 2 Ton": 1.25,
   },
   condition: { New: 1.0, Mid: 1.05, Old: 1.1 },
 } as const;
@@ -471,12 +471,12 @@ export default function AiravatLFareCalculatorPreview() {
                   <StatRow
                     label="Traffic Multiplier"
                     value={`${trafficMult.toFixed(2)}x`}
-                    tooltip="Low = 0.90, Medium = 1.00, High = 1.20"
+                    tooltip="Low = 1.0, Medium = 1.15, High = 1.25"
                   />
                   <StatRow
                     label="Vehicle Multiplier"
                     value={`${vehicleMult.toFixed(2)}x`}
-                    tooltip="3W=0.90, Intra=1.00, Bolero=1.15"
+                    tooltip="3W=1.0, Intra=1.15, Bolero=1.25"
                   />
                   <StatRow
                     label="Condition Multiplier"
