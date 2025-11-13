@@ -1,9 +1,9 @@
 
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "pnpm run build",
   "outputDirectory": "dist",
-  "cleanUrls": true,
-  "redirects": [
+  "installCommand": "pnpm install",
+  "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
