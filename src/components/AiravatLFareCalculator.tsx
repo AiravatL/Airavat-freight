@@ -39,7 +39,17 @@ const InfoIcon = () => (
   </svg>
 );
 
-const StatRow = ({ label, value, highlight = false, tooltip = "" }) => (
+const StatRow = ({
+  label,
+  value,
+  highlight = false,
+  tooltip = "",
+}: {
+  label: string;
+  value: string;
+  highlight?: boolean;
+  tooltip?: string;
+}) => (
   <div className="flex items-center justify-between py-2">
     <div className="flex items-center gap-1.5">
       <span className="text-sm text-zinc-700">{label}</span>
@@ -75,7 +85,13 @@ export default function AiravatLFareCalculatorPreview() {
   const [debug, setDebug] = useState(false);
 
   // Glass container primitive
-  const GlassCard = ({ children, className = "" }) => (
+  const GlassCard = ({
+    children,
+    className = "",
+  }: {
+    children: React.ReactNode;
+    className?: string;
+  }) => (
     <div
       className={`relative rounded-[28px] border border-zinc-200/80 bg-white/70 supports-[backdrop-filter]:backdrop-blur-2xl shadow-[0_10px_40px_rgba(0,0,0,0.06)] overflow-hidden ${className}`}
     >
@@ -93,9 +109,12 @@ export default function AiravatLFareCalculatorPreview() {
     Number(loading) +
     Number(waitMin) * CONFIG.waitPerMin +
     Number(stops) * CONFIG.stopCharge;
-  const trafficMult = CONFIG.traffic[traffic] ?? 1;
-  const vehicleMult = CONFIG.vehicle[vehicle] ?? 1;
-  const conditionMult = CONFIG.condition[condition] ?? 1;
+  const trafficMult =
+    CONFIG.traffic[traffic as keyof typeof CONFIG.traffic] ?? 1;
+  const vehicleMult =
+    CONFIG.vehicle[vehicle as keyof typeof CONFIG.vehicle] ?? 1;
+  const conditionMult =
+    CONFIG.condition[condition as keyof typeof CONFIG.condition] ?? 1;
   const combinedMult = trafficMult * vehicleMult * conditionMult;
   const beforeCommission = subtotal * combinedMult;
   const commission = beforeCommission * CONFIG.commissionRate;
@@ -329,7 +348,7 @@ export default function AiravatLFareCalculatorPreview() {
                         <input
                           type="number"
                           value={baseKm}
-                          onChange={(e) => setBaseKm(e.target.value)}
+                          onChange={(e) => setBaseKm(Number(e.target.value))}
                           className="w-full bg-transparent text-sm text-zinc-900 placeholder-zinc-500 focus:outline-none"
                         />
                         <span className="ml-2 text-zinc-500">km</span>
@@ -343,7 +362,7 @@ export default function AiravatLFareCalculatorPreview() {
                         <input
                           type="number"
                           value={extraKm}
-                          onChange={(e) => setExtraKm(e.target.value)}
+                          onChange={(e) => setExtraKm(Number(e.target.value))}
                           className="w-full bg-transparent text-sm text-zinc-900 placeholder-zinc-500 focus:outline-none"
                         />
                         <span className="ml-2 text-zinc-500">km</span>
@@ -369,7 +388,7 @@ export default function AiravatLFareCalculatorPreview() {
                         <input
                           type="number"
                           value={waitMin}
-                          onChange={(e) => setWaitMin(e.target.value)}
+                          onChange={(e) => setWaitMin(Number(e.target.value))}
                           className="w-full bg-transparent text-sm text-zinc-900 placeholder-zinc-500 focus:outline-none"
                         />
                         <span className="ml-2 text-zinc-500">min</span>
@@ -383,7 +402,7 @@ export default function AiravatLFareCalculatorPreview() {
                         <input
                           type="number"
                           value={stops}
-                          onChange={(e) => setStops(e.target.value)}
+                          onChange={(e) => setStops(Number(e.target.value))}
                           className="w-full bg-transparent text-sm text-zinc-900 placeholder-zinc-500 focus:outline-none"
                         />
                         <span className="ml-2 text-zinc-500">stops</span>
@@ -398,7 +417,7 @@ export default function AiravatLFareCalculatorPreview() {
                         <input
                           type="number"
                           value={loading}
-                          onChange={(e) => setLoading(e.target.value)}
+                          onChange={(e) => setLoading(Number(e.target.value))}
                           className="ml-2 w-full bg-transparent text-sm text-zinc-900 placeholder-zinc-500 focus:outline-none"
                         />
                       </div>
