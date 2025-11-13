@@ -118,7 +118,7 @@ export default function AiravatLFareCalculatorPreview() {
   const combinedMult = trafficMult * vehicleMult * conditionMult;
   const beforeCommission = subtotal * combinedMult;
   const commission = beforeCommission * CONFIG.commissionRate;
-  const finalFare = beforeCommission + commission;
+  const finalFare = Math.ceil(beforeCommission + commission);
 
   // --- Dev sanity tests (console only, toggled by debug) ---
   useEffect(() => {
