@@ -6,8 +6,8 @@ import { motion } from "framer-motion";
 // ==========================
 // Moved out of the component to avoid: "'import' and 'export' may only appear at the top level" errors.
 export const PRICING_CONFIG = {
-  baseFare: 50,
-  perKm: 6,
+  baseFare: 200,
+  perKm: 30,
   waitPerMin: 0.5,
   stopCharge: 10,
   commissionRate: 0.15,
@@ -74,10 +74,10 @@ const StatRow = ({
 
 export default function AiravatLFareCalculatorPreview() {
   const [vehicle, setVehicle] = useState("3 Wheeler - 500kg");
-  const [traffic, setTraffic] = useState("Medium");
+  const [traffic, setTraffic] = useState("Low");
   const [condition, setCondition] = useState("New");
   const [zone, setZone] = useState("Zone 1 – City Center");
-  const [baseKm, setBaseKm] = useState(10);
+  const [baseKm, setBaseKm] = useState(3);
   const [extraKm, setExtraKm] = useState(0);
   const [waitMin, setWaitMin] = useState(0);
   const [stops, setStops] = useState(0);
