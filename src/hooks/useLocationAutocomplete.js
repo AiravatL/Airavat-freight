@@ -14,6 +14,24 @@ import { searchLocalLocations } from "../utils/localLocations.js";
 import { apiCache } from "../utils/apiCache.js";
 import { rateLimiter } from "../utils/rateLimiter.js";
 
+// API Call Counter for debugging
+let autocompleteApiCallCount = 0;
+window.getAutocompleteApiCallCount = () => {
+  console.log(`📊 Total Autocomplete API calls this session: ${autocompleteApiCallCount}`);
+  return autocompleteApiCallCount;
+};
+window.resetAutocompleteApiCallCount = () => {
+  autocompleteApiCallCount = 0;
+  console.log("🔄 Autocomplete API call count reset to 0");
+};
+window.getAllApiCounts = () => {
+  console.log(`\n📊 ═══════════════════════════════════════════`);
+  console.log(`📊 API CALL SUMMARY`);
+  console.log(`📊 Autocomplete API: ${autocompleteApiCallCount} calls`);
+  console.log(`📊 Directions API: ${window.getDirectionsApiCallCount ? window.getDirectionsApiCallCount() : 'N/A'}`);
+  console.log(`📊 ═══════════════════════════════════════════\n`);
+};
+
 // Default options with cost optimization
 const DEFAULT_OPTIONS = {
   debounceMs: 1500, // 1.5 seconds as per plan
@@ -93,6 +111,12 @@ export function useLocationAutocomplete(options = {}) {
 
       return new Promise((resolve) => {
         const token = getSessionToken();
+        
+        autocompleteApiCallCount++;
+        console.log(`\n🔍 ═══════════════════════════════════════════`);
+        console.log(`🔍 AUTOCOMPLETE API CALL #${autocompleteApiCallCount}`);
+        console.log(`🔍 Query: "${searchQuery}"`);
+        console.log(`🔍 ═══════════════════════════════════════════\n`);
 
         service.getPlacePredictions(
           {

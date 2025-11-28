@@ -8,6 +8,17 @@ import {
 } from "@react-google-maps/api";
 import { rateLimiter } from "./utils/rateLimiter.js";
 
+// API Call Counter for debugging
+let directionsApiCallCount = 0;
+window.getDirectionsApiCallCount = () => {
+  console.log(`📊 Total Directions API calls this session: ${directionsApiCallCount}`);
+  return directionsApiCallCount;
+};
+window.resetDirectionsApiCallCount = () => {
+  directionsApiCallCount = 0;
+  console.log("🔄 Directions API call count reset to 0");
+};
+
 const containerStyle = {
   width: "100%",
   height: "400px",
@@ -19,6 +30,9 @@ const defaultCenter = {
   lng: 91.7362,
 };
 
+// IMPORTANT: Keep libraries array outside component to prevent re-renders
+const GOOGLE_MAPS_LIBRARIES = ["places", "geometry", "routes"];
+
 const GoogleMapsComponent = ({
   pickupLocation,
   dropoffLocation,
@@ -29,7 +43,7 @@ const GoogleMapsComponent = ({
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: apiKey,
-    libraries: ["places", "geometry", "routes"],
+    libraries: GOOGLE_MAPS_LIBRARIES,
   });
 
   const [map, setMap] = useState(null);
@@ -151,7 +165,12 @@ const GoogleMapsComponent = ({
     setRouteKey(prev => prev + 1);
     
     // Make API call
-    console.log("📡 Making Directions API request...");
+    directionsApiCallCount++;
+    console.log(`\n🚀 ═══════════════════════════════════════════`);
+    console.log(`🚀 DIRECTIONS API CALL #${directionsApiCallCount}`);
+    console.log(`🚀 From: "${currentRoute.pickup}"`);
+    console.log(`🚀 To: "${currentRoute.dropoff}"`);
+    console.log(`🚀 ═══════════════════════════════════════════\n`);
     inFlightRef.current = true;
     setLoading(true);
 
