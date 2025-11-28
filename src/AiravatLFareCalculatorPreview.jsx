@@ -4,6 +4,7 @@ import { rateLimiter } from "./utils/rateLimiter.js";
 import { apiCache } from "./utils/apiCache.js";
 import GoogleMapsComponent from "./GoogleMapsComponent.jsx";
 import LocationAutocomplete from "./components/LocationAutocomplete.jsx";
+import { useAuth } from "./context/AuthContext";
 
 export const PRICING_CONFIG = {
   baseFare: 200,
@@ -389,6 +390,8 @@ const TrafficMap = ({ originLabel, destinationLabel, onRouteChange }) => {
 };
 
 const AiravatLFareCalculatorPreview = () => {
+  const { logout } = useAuth();
+  
   const [vehicle, setVehicle] = useState("3 Wheeler - 500kg");
   const [traffic, setTraffic] = useState("Medium");
   const [condition, setCondition] = useState("New");
@@ -580,17 +583,14 @@ const AiravatLFareCalculatorPreview = () => {
               </a>
             </nav>
             <div className="flex items-center gap-3">
-              <label className="flex items-center gap-2 text-xs font-medium text-white/80 select-none">
-                <input
-                  type="checkbox"
-                  className="accent-white/90"
-                  checked={debug}
-                  onChange={(e) => setDebug(e.target.checked)}
-                />
-                <span>Show debug tests</span>
-              </label>
-              <button className="rounded-2xl px-4 py-2 text-sm font-semibold text-zinc-900 bg-white/80 border border-white/50 backdrop-blur-xl hover:bg-white transition">
-                Get Started
+              <button
+                onClick={logout}
+                className="rounded-2xl px-4 py-2 text-sm font-semibold text-white bg-white/20 border border-white/30 backdrop-blur-xl hover:bg-white/30 transition flex items-center gap-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                Logout
               </button>
             </div>
           </div>
