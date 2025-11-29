@@ -187,6 +187,10 @@ const GoogleMapsComponent = ({
         origin: currentRoute.pickup,
         destination: currentRoute.dropoff,
         travelMode: window.google.maps.TravelMode.DRIVING,
+        drivingOptions: {
+          departureTime: new Date(), // Current time for real-time traffic
+          trafficModel: window.google.maps.TrafficModel.BEST_GUESS,
+        },
       },
       (result, status) => {
         console.log("📊 Response:", status);
@@ -216,16 +220,22 @@ const GoogleMapsComponent = ({
 
             const durationInTraffic = leg.duration_in_traffic
               ? leg.duration_in_traffic.value / 60
-              : durationNormal;            const trafficRatio = durationInTraffic / durationNormal;
+              : durationNormal;
+            
+            const hasLiveTraffic = !!leg.duration_in_traffic;
+            const trafficSource = hasLiveTraffic ? 'live' : 'estimated';
+            console.log(`🚦 Traffic source: ${trafficSource}`);
+            
+            const trafficRatio = durationInTraffic / durationNormal;
             let trafficLevel = "Medium";
             if (trafficRatio < 1.1) {
               trafficLevel = "Low";
-              console.log("🟢 Low");
+              console.log("🟢 Low traffic (1.0x - no surcharge)");
             } else if (trafficRatio > 1.3) {
               trafficLevel = "High";
-              console.log("🔴 High");
+              console.log("🔴 High traffic (1.2x - 20% surcharge)");
             } else {
-              console.log("🟡 Medium");
+              console.log("🟡 Medium traffic (1.1x - 10% surcharge)");
             }
 
             setTrafficLevel(trafficLevel);

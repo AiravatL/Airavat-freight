@@ -13,9 +13,9 @@ export const PRICING_CONFIG = {
   stopCharge: 50,
   commissionRate: 0.15,
   traffic: {
-    Low: 0.95,
-    Medium: 1.0,
-    High: 1.2,
+    Low: 1.0,      // No change
+    Medium: 1.1,   // 10% surcharge
+    High: 1.2,     // 20% surcharge
   },
   vehicle: {
     "3 Wheeler - 500kg": 1.0,
