@@ -164,12 +164,12 @@ const LocationAutocomplete = ({
   return (
     <div ref={wrapperRef} className={`relative ${className}`}>
       {label && (
-        <label className="text-xs font-medium text-zinc-600">{label}</label>
+        <label className="block text-sm text-gray-600 mb-1">{label}</label>
       )}
-      <div className="mt-1 flex items-center rounded-2xl border border-zinc-200/80 bg-white/70 px-4 py-3 shadow-sm focus-within:ring-2 focus-within:ring-purple-500/30 focus-within:border-purple-400 transition-all">
+      <div className="flex items-center border border-gray-300 bg-white rounded px-3 py-2 focus-within:border-purple-500">
         {/* Search icon */}
         <svg
-          className="h-4 w-4 text-zinc-400 mr-2 flex-shrink-0"
+          className="h-4 w-4 text-gray-400 mr-2 flex-shrink-0"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -192,7 +192,7 @@ const LocationAutocomplete = ({
           placeholder={placeholder}
           disabled={disabled}
           autoComplete="off"
-          className="w-full bg-transparent text-sm text-zinc-900 placeholder-zinc-500 focus:outline-none disabled:opacity-50"
+          className="w-full bg-transparent text-sm text-gray-900 placeholder-gray-400 focus:outline-none disabled:opacity-50"
         />
 
         {/* Loading spinner */}
@@ -257,11 +257,10 @@ const LocationAutocomplete = ({
               data-suggestion
               onClick={() => handleSuggestionClick(suggestion, index)}
               onMouseEnter={() => setHighlightedIndex(index)}
-              className={`w-full px-4 py-3 text-left text-sm border-b border-zinc-100 last:border-0 transition-colors flex items-start gap-2 ${
-                highlightedIndex === index
-                  ? "bg-purple-50"
-                  : "hover:bg-zinc-50"
-              }`}
+              className={`w-full px-4 py-3 text-left text-sm border-b border-zinc-100 last:border-0 transition-colors flex items-start gap-2 ${highlightedIndex === index
+                ? "bg-purple-50"
+                : "hover:bg-zinc-50"
+                }`}
             >
               {/* Icon */}
               <span className="flex-shrink-0 text-base">

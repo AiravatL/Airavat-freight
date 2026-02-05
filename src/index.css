@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
+}
+
+/* Keep text caret readable on light inputs */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+textarea {
+  cursor: text !important;
+  caret-color: #111827;
+  color: #111827;
 }
