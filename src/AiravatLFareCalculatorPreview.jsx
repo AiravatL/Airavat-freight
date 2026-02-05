@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { Link } from "react-router-dom";
 import GoogleMapsComponent from "./GoogleMapsComponent.jsx";
 import LocationAutocomplete from "./components/LocationAutocomplete.jsx";
 import { useAuth } from "./context/AuthContext";
@@ -102,12 +103,20 @@ const AiravatLFareCalculatorPreview = () => {
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-400 transition-all ${highlight
-              ? "border-purple-300 bg-purple-50/50 text-purple-700 font-medium"
-              : "border-gray-200 bg-white text-gray-800"
+          className={`w-full border rounded-xl px-4 py-2.5 text-sm cursor-text focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-400 transition-all ${highlight
+            ? "border-purple-300 bg-purple-50/50 text-purple-700 font-medium"
+            : "border-gray-200 bg-white text-gray-800"
             }`}
         />
       )}
+    </div>
+  );
+
+  // StatRow component for summary
+  const StatRow = ({ label, value, highlight = false }) => (
+    <div className="flex items-center justify-between py-2">
+      <span className="text-sm text-zinc-600">{label}</span>
+      <span className={`text-sm font-medium ${highlight ? "text-purple-600" : "text-zinc-900"}`}>{value}</span>
     </div>
   );
 
@@ -119,9 +128,14 @@ const AiravatLFareCalculatorPreview = () => {
           <h1 className="text-xl font-bold">AiravatL Trip Calculator</h1>
           <p className="text-purple-200 text-sm">Calculate trip costs with precision</p>
         </div>
-        <button onClick={logout} className="bg-white/20 hover:bg-white/30 px-5 py-2 rounded-xl text-sm font-medium transition-colors">
-          Logout
-        </button>
+        <div className="flex gap-3">
+          <Link to="/" className="bg-white/20 hover:bg-white/30 px-5 py-2 rounded-xl text-sm font-medium transition-colors">
+            ← Back
+          </Link>
+          <button onClick={logout} className="bg-white/20 hover:bg-white/30 px-5 py-2 rounded-xl text-sm font-medium transition-colors">
+            Logout
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -182,8 +196,8 @@ const AiravatLFareCalculatorPreview = () => {
                   key={v.id}
                   onClick={() => { setVehicleId(v.id); setManualVehicleDailyRate(null); setManualMileage(null); }}
                   className={`p-5 border-2 rounded-2xl cursor-pointer transition-all ${vehicleId === v.id
-                      ? "border-purple-500 bg-purple-50 shadow-md"
-                      : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                    ? "border-purple-500 bg-purple-50 shadow-md"
+                    : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
                     }`}
                 >
                   <div className="flex items-center justify-between">
@@ -213,36 +227,33 @@ const AiravatLFareCalculatorPreview = () => {
 
         {/* RIGHT COLUMN: SUMMARY */}
         <div className="lg:col-span-1">
-          <div className="bg-gradient-to-br from-slate-800 to-slate-900 text-white p-6 rounded-2xl shadow-xl sticky top-6">
-            <h3 className="text-lg font-semibold mb-5 flex items-center gap-2">
-              <span className="text-xl">📊</span> Cost Breakdown
-            </h3>
+          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm sticky top-6">
+            <h3 className="text-lg font-semibold text-zinc-900 mb-5">Cost Breakdown</h3>
 
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between"><span className="text-slate-400">Vehicle Cost</span><span className="font-medium">{inr(vehicleCost)}</span></div>
-              <div className="flex justify-between"><span className="text-slate-400">Fuel Cost</span><span className="font-medium">{inr(fuelCost)}</span></div>
-              <div className="flex justify-between"><span className="text-slate-400">DEF Cost (6%)</span><span className="font-medium">{inr(defCost)}</span></div>
-              <div className="flex justify-between"><span className="text-slate-400">Driver Bata</span><span className="font-medium">{inr(driverCost)}</span></div>
-            </div>
-
-            <hr className="border-slate-700 my-4" />
-
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between"><span className="text-slate-400">Road Expenses</span><span className="font-medium">{inr(roadExpense)}</span></div>
-              <div className="flex justify-between"><span className="text-slate-400">Toll Charges</span><span className="font-medium">{inr(tollCharge)}</span></div>
-              <div className="flex justify-between"><span className="text-slate-400">Loading/Unloading</span><span className="font-medium">{inr(loadingCost)}</span></div>
-            </div>
-
-            <hr className="border-slate-700 my-4" />
-
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between text-slate-300"><span>Subtotal</span><span className="font-semibold">{inr(totalOperatingCost)}</span></div>
-              <div className="flex justify-between text-emerald-400"><span>Margin ({marginPercent}%)</span><span className="font-semibold">+ {inr(marginAmount)}</span></div>
-            </div>
-
-            <div className="mt-6 pt-5 border-t border-slate-600 flex justify-between items-center">
-              <span className="text-lg font-semibold text-slate-300">Total</span>
-              <span className="text-3xl font-bold text-white">{inr(finalAmount)}</span>
+            <div className="divide-y divide-zinc-200/70">
+              <div className="pb-2">
+                <StatRow label="Total Distance" value={`${totalDistance.toFixed(1)} km`} />
+                <StatRow label="Vehicle Cost" value={inr(vehicleCost)} />
+                <StatRow label="Fuel Cost" value={inr(fuelCost)} />
+                <StatRow label="DEF Cost (6%)" value={inr(defCost)} />
+                <StatRow label="Driver Bata" value={inr(driverCost)} />
+              </div>
+              <div className="py-2">
+                <StatRow label="Road Expenses" value={inr(roadExpense)} />
+                <StatRow label="Toll Charges" value={inr(tollCharge)} />
+                <StatRow label="Loading/Unloading" value={inr(loadingCost)} />
+              </div>
+              <div className="py-2">
+                <StatRow label="Subtotal" value={inr(totalOperatingCost)} />
+                <StatRow label={`Margin (${marginPercent}%)`} value={`+ ${inr(marginAmount)}`} highlight />
+              </div>
+              <div className="pt-4">
+                <div className="h-1 w-full rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 mb-4" />
+                <p className="text-xs uppercase tracking-wider text-zinc-500">Final Amount</p>
+                <div className="mt-2 text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">
+                  {inr(finalAmount)}
+                </div>
+              </div>
             </div>
           </div>
         </div>
