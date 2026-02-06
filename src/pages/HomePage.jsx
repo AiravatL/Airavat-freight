@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "./context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
-const Home = () => {
+const HomePage = () => {
     const { logout } = useAuth();
 
     return (
@@ -80,4 +80,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default HomePage;
