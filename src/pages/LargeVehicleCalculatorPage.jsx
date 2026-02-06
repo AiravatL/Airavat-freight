@@ -20,7 +20,7 @@ const LargeVehicleCalculatorPage = () => {
     const [origin, setOrigin] = useState(DEFAULT_LOCATIONS[0]);
     const [destination, setDestination] = useState(DEFAULT_LOCATIONS[1]);
     const [vehicleId, setVehicleId] = useState(LARGE_VEHICLE_TYPES[0].id);
-    const [tripDays, setTripDays] = useState(1);
+    const [tripDays, setTripDays] = useState("1");
     const [fuelRate, setFuelRate] = useState(OPERATING_COSTS.DEFAULT_FUEL_RATE);
     const [additionalDistance, setAdditionalDistance] = useState(0);
 
@@ -50,11 +50,12 @@ const LargeVehicleCalculatorPage = () => {
     const totalDistance = mapDistance + toNumber(additionalDistance);
 
     // Cost Calculations
-    const vehicleCost = vehicleDailyRate * tripDays;
+    const tripDaysNum = parseInt(tripDays) || 1; // Use 1 as fallback for calculations
+    const vehicleCost = vehicleDailyRate * tripDaysNum;
     const fuelConsumption = totalDistance / vehicleMileage;
     const fuelCost = fuelConsumption * fuelRate;
     const defCost = fuelCost * OPERATING_COSTS.DEF_PERCENTAGE_OF_FUEL;
-    const driverCost = OPERATING_COSTS.DRIVER_DAILY_BATA * tripDays;
+    const driverCost = OPERATING_COSTS.DRIVER_DAILY_BATA * tripDaysNum;
     const otherExpenses = toNumber(roadExpense) + toNumber(tollCharge) + toNumber(loadingCost);
     const totalOperatingCost = vehicleCost + fuelCost + defCost + driverCost + otherExpenses;
     const marginAmount = totalOperatingCost * (marginPercent / 100);
@@ -128,7 +129,7 @@ const LargeVehicleCalculatorPage = () => {
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                             <InputField label="Additional Distance (km)" value={additionalDistance} onChange={e => setAdditionalDistance(e.target.value)} />
                             <InputField label="Total Distance" value={`${totalDistance.toFixed(1)} km`} disabled />
-                            <InputField label="Trip Duration (Days)" value={tripDays} onChange={e => setTripDays(parseInt(e.target.value) || 1)} />
+                            <InputField label="Trip Duration (Days)" value={tripDays} onChange={e => setTripDays(e.target.value)} placeholder="1" />
                         </div>
                     </Card>
 
